@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import Navbar from './components/navbar/navbar.tsx'
-import ErrorPage from './components/error-page/error-page.tsx'
+import ErrorPage from './pages/ErrorPage'
 import './index.css'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
