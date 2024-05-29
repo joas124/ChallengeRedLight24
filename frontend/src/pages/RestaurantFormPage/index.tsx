@@ -41,6 +41,8 @@ export default function RestaurantFormPage() {
     if (!restaurant) return;
 
     const formData = new FormData(event.currentTarget);
+    //Convert rating to float
+    formData.set('rating', Number(formData.get('rating')).toString());
 
     try {
       let response: Response;

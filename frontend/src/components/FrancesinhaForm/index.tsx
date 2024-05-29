@@ -22,11 +22,11 @@ export default function FrancesinhaForm(props: any) {
 
         <label>Price:</label>
         {fieldErrors.price && <span className="error">{fieldErrors.price}</span>}
-        <input type='number' name='price' defaultValue={francesinha.price} />
+        <input type='text' name='price' defaultValue={francesinha.price} />
         
         <label>Rating:</label>
         {fieldErrors.rating && <span className="error">{fieldErrors.rating}</span>}
-        <input type='number' name='rating' defaultValue={francesinha.rating} />
+        <input type='text' name='rating' defaultValue={francesinha.rating} />
 
         <label>Image:</label>
         {fieldErrors.image && <span className="error">{fieldErrors.image}</span>}

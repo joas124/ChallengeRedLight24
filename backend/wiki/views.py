@@ -71,6 +71,7 @@ class RestaurantListCreate(generics.ListCreateAPIView):
             return Response(e.detail, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
             return Response({'detail': 'An error occurred'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    
 
 class FrancesinhaRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     queryset = Francesinha.objects.all()
@@ -105,6 +106,12 @@ class FrancesinhaRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
             return Response(e.detail, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
             return Response({'detail': 'An error occurred'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        instance.image.delete(save=False)
+        self.perform_destroy(instance)
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class IngredientRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
@@ -158,6 +165,16 @@ class RestaurantRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
             return Response(e.detail, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
             return Response({'detail': 'An error occurred'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    
+    def destroy(self, request, *args, **kwargs):
+        # Delete all francesinhas from this restaurant, and their images
+        instance = self.get_object()
+        francesinhas = Francesinha.objects.filter(restaurant=instance.id)
+        for francesinha in francesinhas:
+            francesinha.image.delete(save=False)
+            francesinha.delete()
+        self.perform_destroy(instance)
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 # Custom views

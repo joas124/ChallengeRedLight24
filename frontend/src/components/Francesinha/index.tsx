@@ -1,7 +1,14 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { removeFrancesinha } from "../../utils";
 
 export default function Francesinha(props: any) {
   const { francesinha } = props;
+  const navigate = useNavigate();
+
+  const handleDelete = async () => {
+    if (!window.confirm("Are you sure you want to delete this francesinha?")) return;
+    removeFrancesinha(francesinha.id, navigate);
+  }
 
   return(
     <div className="francesinha">
@@ -20,7 +27,7 @@ export default function Francesinha(props: any) {
       <h2>Restaurant</h2>
       <Link to={`/restaurants/${francesinha.restaurant.id}`}>{francesinha.restaurant.name}</Link>
       <button><Link to={`/francesinhas/${francesinha.id}/edit`}>Edit</Link></button>
-      <button>Delete</button>
+      <button onClick={handleDelete}>Delete</button>
     </div>
   );
 

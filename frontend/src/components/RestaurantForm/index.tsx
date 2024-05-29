@@ -21,7 +21,7 @@ export default function RestaurantForm(props: any) {
 
         <label>Rating:</label>
         {fieldErrors.rating && <div className="error-form">{fieldErrors.rating}</div> }
-        <input type="number" name="rating" defaultValue={restaurant.rating} />
+        <input type="text" name="rating" defaultValue={restaurant.rating} />
         
         <button type="submit">Save</button>
         <button type="button" onClick={() => navigate(-1)}>Cancel</button>

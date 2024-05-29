@@ -52,6 +52,9 @@ export default function FrancesinhaFormPage() {
     if (!francesinha) return;
 
     const formData = new FormData(event.currentTarget);
+    //Convert price and rating to floats
+    formData.set('price', Number(formData.get('price')).toString());
+    formData.set('rating', Number(formData.get('rating')).toString());
 
     try {
       let response: Response;
