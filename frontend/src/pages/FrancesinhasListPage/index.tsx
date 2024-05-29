@@ -1,18 +1,16 @@
 import { useState, useEffect } from "react";
-import { apiFrancesinhas } from "../../api/api.tsx";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { fetchFrancesinhas } from "../../utils";
 
 export default function FrancesinhasListPage(){
   const [francesinhas, setFrancesinhas] = useState([]);
-
-  const fetchFrancesinhas = async () => {
-    const response = await apiFrancesinhas.getFrancesinhas().then().catch();
-    setFrancesinhas(response.data);
-  }
+  const location = useLocation();
 
   useEffect(() => {
-    fetchFrancesinhas();
-  }, []);
+    const searchParams = new URLSearchParams(location.search);
+    const query = searchParams.get('q');
+    fetchFrancesinhas(query, setFrancesinhas);
+  }, [location.search]);
 
   return (
     <div className="francesinha-list">

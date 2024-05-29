@@ -1,18 +1,16 @@
 import { useState, useEffect } from "react";
-import { apiRestaurants } from "../../api/api.tsx";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { fetchRestaurants } from "../../utils";
 
 export default function RestaurantsListPage(){
   const [restaurants, setRestaurants] = useState([]);
-
-  const fetchRestaurants = async () => {
-    const response = await apiRestaurants.getRestaurants().then().catch();
-    setRestaurants(response.data);
-  }
+  const location = useLocation();
 
   useEffect(() => {
-    fetchRestaurants();
-  }, []);
+    const searchParams = new URLSearchParams(location.search);
+    const query = searchParams.get('q');
+    fetchRestaurants(query, setRestaurants);
+  }, [location.search]);
 
   return (
     <div className="restaurant-list">

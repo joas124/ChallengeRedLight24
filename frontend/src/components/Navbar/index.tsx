@@ -1,20 +1,16 @@
 import { Outlet, Link } from "react-router-dom";
+import SearchBar from "../SearchBar";
+import './navbar.css';
 
 export default function Navbar(){
+
   return (
     <>
-      <nav>
-        <ul className="navbar">
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="/restaurants">Restaurants</Link>
-          </li>
-          <li>
-            <Link to="/francesinhas">Francesinhas</Link>
-          </li>
-        </ul>
+      <nav className="nav-bar">
+        <Link to="/">Home</Link>
+        <Link to="/restaurants">Restaurants</Link>
+        <Link to="/francesinhas">Francesinhas</Link>
+        <SearchBar />
       </nav>
       <main>
         <Outlet />

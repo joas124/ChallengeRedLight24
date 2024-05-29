@@ -21,6 +21,10 @@ const router = createBrowserRouter([
         element: <FrancesinhasListPage />,
       },
       {
+        path: '/francesinhas/search',
+        element: <FrancesinhasListPage />,
+      },
+      {
         path: '/francesinhas/:id',
         element: <FrancesinhaPage />,
       },
@@ -34,6 +38,10 @@ const router = createBrowserRouter([
       },
       {
         path: '/restaurants',
+        element: <RestaurantsListPage />,
+      },
+      {
+        path: '/restaurants/search',
         element: <RestaurantsListPage />,
       },
       {

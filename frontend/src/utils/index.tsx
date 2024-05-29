@@ -1,5 +1,39 @@
 import { apiFrancesinhas, apiRestaurants, apiIngredients } from "../api/api";
 
+
+//Fetch functions
+export const fetchFrancesinhas = async (query: string|null, setFrancesinhas: Function) => {
+  try {
+    let response: any;
+    if (query) {
+      response = await apiFrancesinhas.searchFrancesinhas(query);
+    } else {
+      response = await apiFrancesinhas.getFrancesinhas();
+    }
+    setFrancesinhas(response.data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export const fetchRestaurants = async (query: string|null, setRestaurants: Function) => {
+  try {
+    let response: any;
+    if (query) {
+      await apiRestaurants.searchRestaurants(query).then(
+        (data) => {
+          response = data;
+        }
+      ).catch();
+    } else {
+      response = await apiRestaurants.getRestaurants();
+    }
+    setRestaurants(response.data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 export const fetchFrancesinha = async (id: number, setFrancesinha: Function, setError: Function) => {
   try {
     const [ingredientsResponse, francesinhaResponse] = await Promise.all([
@@ -33,15 +67,8 @@ export const fetchIngredients = async (setIngredients: Function) => {
   }
 }
 
-export const fetchRestaurants = async (setRestaurants: Function) => {
-  try {
-    const response = await apiRestaurants.getRestaurants();
-    setRestaurants(response.data);
-  } catch (error) {
-    console.error(error);
-  }
-}
 
+// Delete functions
 export const removeFrancesinha = async (id: number, navigate: Function) => {
   try {
     await apiFrancesinhas.deleteFrancesinha(id);

@@ -28,6 +28,9 @@ export const apiFrancesinhas = {
   deleteFrancesinha(id: number){
     return axiosInstance.delete(`/francesinhas/${id}`);
   },
+  searchFrancesinhas(query: string){
+    return axiosInstance.get(`/francesinhas/?q=${query}`);
+  },
 }
 
 export const apiIngredients = {
@@ -66,5 +69,8 @@ export const apiRestaurants = {
   },
   deleteRestaurant(id: number){
     return axiosInstance.delete(`/restaurants/${id}`);
+  },
+  searchRestaurants(query: string){
+    return axiosInstance.get(`/restaurants/?q=${query}`);
   },
 }

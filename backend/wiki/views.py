@@ -3,6 +3,9 @@ from rest_framework.response import Response
 from .models import Francesinha, Ingredient, Restaurant
 from .serializers import FrancesinhaSerializer, IngredientSerializer, RestaurantSerializer
 from django.utils.html import escape
+from django.http import HttpResponse
+from django.conf import settings
+import os
 
 # Create your views here.
 
@@ -26,8 +29,13 @@ class FrancesinhaListCreate(generics.ListCreateAPIView):
             return Response(e.detail, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
             return Response({'detail': 'An error occurred'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    
+    def get_queryset(self):
+        query = self.request.query_params.get('q', None)
+        if query:
+            return Francesinha.objects.filter(name__icontains=query)
+        return Francesinha.objects.all()
         
-
 
 class IngredientListCreate(generics.ListCreateAPIView):
     queryset = Ingredient.objects.all()
@@ -48,6 +56,7 @@ class IngredientListCreate(generics.ListCreateAPIView):
             return Response(e.detail, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
             return Response({'detail': 'An error occurred'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
 
 class RestaurantListCreate(generics.ListCreateAPIView):
     queryset = Restaurant.objects.all()
@@ -71,6 +80,14 @@ class RestaurantListCreate(generics.ListCreateAPIView):
             return Response(e.detail, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
             return Response({'detail': 'An error occurred'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+    def get_queryset(self):
+        query = self.request.query_params.get('q', None)
+        if query:
+            return Restaurant.objects.filter(name__icontains=query)
+        return Restaurant.objects.all()
+        
+        
     
 
 class FrancesinhaRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
@@ -177,12 +194,27 @@ class RestaurantRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-# Custom views
 
-#render_image
-from django.http import HttpResponse
-from django.conf import settings
-import os
+# Search views
+
+class FrancesinhaSearch(generics.ListAPIView):
+    serializer_class = FrancesinhaSerializer
+
+    #url = /francesinhas/search?q=<query>
+    def get_queryset(self):
+        query = self.kwargs['q']
+        print(query)
+        return Francesinha.objects.filter(name__icontains=query)
+    
+class RestaurantSearch(generics.ListAPIView):
+    serializer_class = RestaurantSerializer
+
+    def get_queryset(self):
+        query = self.kwargs['q']
+        return Restaurant.objects.filter(name__icontains=query)
+
+
+# Custom views
 
 def render_image(request, image_name):
     image_path = os.path.join(settings.MEDIA_ROOT, 'images', image_name)

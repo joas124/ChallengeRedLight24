@@ -29,7 +29,7 @@ export default function FrancesinhaFormPage() {
 
   useEffect(() => {
     fetchIngredients(setIngredients);
-    fetchRestaurants(setRestaurants);
+    fetchRestaurants(null, setRestaurants);
     if (id){
       const francesinhaId = parseInt(id);
       fetchFrancesinha(francesinhaId, setFrancesinha, setError);
