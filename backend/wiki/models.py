@@ -23,7 +23,7 @@ class Francesinha(models.Model):
     price = models.DecimalField(max_digits=5, decimal_places=2)
     rating = models.DecimalField(max_digits=3, decimal_places=1)
     ingredients = models.ManyToManyField(Ingredient)
-    image = models.ImageField(upload_to='francesinhas/', blank=True, null=True)
+    image = models.ImageField(upload_to='images/', blank=True, null=True)
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
 
     def __str__(self):

@@ -11,4 +11,5 @@ urlpatterns = [
     path('restaurants/<int:restaurant_id>/francesinhas/', views.FrancesinhaListByRestaurant.as_view(), name='francesinha-list-by-restaurant'),
     path('francesinhas/<int:francesinha_id>/ingredients/', views.IngredientListByFrancesinha.as_view(), name='ingredient-list-by-francesinha'),
     path('ingredients/<int:ingredient_id>/francesinhas/', views.FrancesinhaListByIngredient.as_view(), name='francesinha-list-by-ingredient'),
+    path('media/images/<str:image_name>/', views.render_image, name='render-image')
 ]

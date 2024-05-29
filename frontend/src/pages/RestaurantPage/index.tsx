@@ -38,13 +38,13 @@ export default function RestaurantPage() {
   }, [id]);
 
   return (
-    <div>
+    <>
       {restaurant ? (
         <Restaurant restaurant={restaurant} />
       ) : (
         <div className="error">{error}</div>
       )}
-    </div>
+    </>
   );
 
 }

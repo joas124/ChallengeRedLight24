@@ -4,8 +4,10 @@ import Navbar from './components/Navbar'
 import ErrorPage from './pages/ErrorPage'
 import FrancesinhasListPage from './pages/FrancesinhasListPage'
 import FrancesinhaPage from './pages/FrancesinhaPage'
+import FrancesinhaFormPage from './pages/FrancesinhaFormPage'
 import RestaurantsListPage from './pages/RestaurantsListPage'
 import RestaurantPage from './pages/RestaurantPage'
+import RestaurantFormPage from './pages/RestaurantFormPage'
 import './index.css'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
@@ -24,11 +26,11 @@ const router = createBrowserRouter([
       },
       {
         path: '/francesinhas/:id/edit',
-        // element: <EditFrancesinhaPage />,
+        element: <FrancesinhaFormPage />,
       },
       {
-        path: '/francesinhas/create',
-        // element: <CreateFrancesinhaPage />,
+        path: '/francesinhas/add',
+        element: <FrancesinhaFormPage />,
       },
       {
         path: '/restaurants',
@@ -37,6 +39,14 @@ const router = createBrowserRouter([
       {
         path: '/restaurants/:id',
         element: <RestaurantPage />,
+      },
+      {
+        path: '/restaurants/:id/edit',
+        element: <RestaurantFormPage />,
+      },
+      {
+        path: '/restaurants/add',
+        element: <RestaurantFormPage />,
       },
       {
         path: '*', // 404

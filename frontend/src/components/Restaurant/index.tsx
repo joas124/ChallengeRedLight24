@@ -11,6 +11,7 @@ export default function Restaurant(props: any) {
       <p>Country: {restaurant.country}</p>
       <p>Rating: {restaurant.rating}</p>
       <h2>Francesinhas</h2>
+      {restaurant.francesinhas.length === 0 && <p>No francesinhas found</p>}
       <ul>
         {restaurant.francesinhas.map((francesinha: any) => (
           <li key={francesinha.id} className="francesinha">
@@ -18,6 +19,7 @@ export default function Restaurant(props: any) {
           </li>
         ))}
       </ul>
+      <button><Link to={`/restaurants/${restaurant.id}/edit`}>Edit</Link></button>
     </div>
   );
 }

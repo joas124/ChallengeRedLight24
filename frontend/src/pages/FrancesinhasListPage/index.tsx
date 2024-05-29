@@ -7,7 +7,6 @@ export default function FrancesinhasListPage(){
 
   const fetchFrancesinhas = async () => {
     const response = await apiFrancesinhas.getFrancesinhas().then().catch();
-    console.log(response.data);
     setFrancesinhas(response.data);
   }
 
@@ -24,6 +23,7 @@ export default function FrancesinhasListPage(){
           </li>
         ))}
       </ul>
+      <button><Link to="/francesinhas/add">Add New Francesinha</Link></button>
     </div>
   );
 }

@@ -23,6 +23,7 @@ export default function RestaurantsListPage(){
           </li>
         ))}
       </ul>
+      <button><Link to={`/restaurants/add`}>Add New Restaurant</Link></button>
     </div>
   );
 }

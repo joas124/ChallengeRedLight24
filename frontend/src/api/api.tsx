@@ -25,6 +25,9 @@ export const apiFrancesinhas = {
   updateFrancesinha(id: number, data: any){
     return axiosInstance.put(`/francesinhas/${id}`, data);
   },
+  deleteFrancesinha(id: number){
+    return axiosInstance.delete(`/francesinhas/${id}`);
+  },
 }
 
 export const apiIngredients = {
@@ -39,6 +42,9 @@ export const apiIngredients = {
   },
   updateIngredient(id: number, data: any){
     return axiosInstance.put(`/ingredients/${id}`, data);
+  },
+  deleteIngredient(id: number){
+    return axiosInstance.delete(`/ingredients/${id}`);
   },
 }
 
@@ -57,5 +63,8 @@ export const apiRestaurants = {
   },
   updateRestaurant(id: number, data: any){
     return axiosInstance.put(`/restaurants/${id}`, data);
+  },
+  deleteRestaurant(id: number){
+    return axiosInstance.delete(`/restaurants/${id}`);
   },
 }

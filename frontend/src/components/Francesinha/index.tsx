@@ -19,6 +19,8 @@ export default function Francesinha(props: any) {
       </ul>
       <h2>Restaurant</h2>
       <Link to={`/restaurants/${francesinha.restaurant.id}`}>{francesinha.restaurant.name}</Link>
+      <button><Link to={`/francesinhas/${francesinha.id}/edit`}>Edit</Link></button>
+      <button>Delete</button>
     </div>
   );
 
