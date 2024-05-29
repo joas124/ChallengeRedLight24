@@ -14,5 +14,4 @@ class FrancesinhaSerializer(serializers.ModelSerializer):
 class RestaurantSerializer(serializers.ModelSerializer):
     class Meta:
         model = Restaurant
-        # Return all fields + all francesinhas related to the restaurant
         fields = '__all__'
