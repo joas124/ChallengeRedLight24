@@ -32,8 +32,11 @@ class FrancesinhaListCreate(generics.ListCreateAPIView):
     
     def get_queryset(self):
         query = self.request.query_params.get('q', None)
-        if query:
-            return Francesinha.objects.filter(name__icontains=query)
+        sort = self.request.query_params.get('sort', None)
+        if (query and sort):
+            if (sort == 'rating'):
+                return Francesinha.objects.filter(name__icontains=query).order_by(sort).reverse()
+            return Francesinha.objects.filter(name__icontains=query).order_by(sort)
         return Francesinha.objects.all()
         
 
@@ -49,6 +52,10 @@ class IngredientListCreate(generics.ListCreateAPIView):
         serializer = self.get_serializer(data=data)
         try:
             serializer.is_valid(raise_exception=True)
+            # Check if the ingredient already exists
+            name = serializer.validated_data.get('name')
+            if (Ingredient.objects.filter(name=name).exists()):
+                return Response({'detail': 'Ingredient already exists'}, status=status.HTTP_400_BAD_REQUEST)
             self.perform_create(serializer)
             headers = self.get_success_headers(serializer.data)
             return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
@@ -56,6 +63,13 @@ class IngredientListCreate(generics.ListCreateAPIView):
             return Response(e.detail, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
             return Response({'detail': 'An error occurred'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+    def get_queryset(self):
+        query = self.request.query_params.get('q', None)
+        sort = self.request.query_params.get('sort', None)
+        if (query and sort):
+            return Ingredient.objects.filter(name__icontains=query).order_by(sort)
+        return Ingredient.objects.all()
         
 
 class RestaurantListCreate(generics.ListCreateAPIView):
@@ -83,8 +97,9 @@ class RestaurantListCreate(generics.ListCreateAPIView):
         
     def get_queryset(self):
         query = self.request.query_params.get('q', None)
-        if query:
-            return Restaurant.objects.filter(name__icontains=query)
+        sort = self.request.query_params.get('sort', None)
+        if (query and sort):
+            return Restaurant.objects.filter(name__icontains=query).order_by(sort)
         return Restaurant.objects.all()
         
         
@@ -147,6 +162,10 @@ class IngredientRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
         serializer = self.get_serializer(instance, data=data, partial=partial)
         try:
             serializer.is_valid(raise_exception=True)
+            # Check if the ingredient already exists
+            name = serializer.validated_data.get('name')
+            if (Ingredient.objects.filter(name=name).exists()):
+                return Response({'detail': 'Ingredient already exists'}, status=status.HTTP_400_BAD_REQUEST)
             self.perform_update(serializer)
             return Response(serializer.data)
         except serializers.ValidationError as e:
@@ -192,27 +211,6 @@ class RestaurantRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
             francesinha.delete()
         self.perform_destroy(instance)
         return Response(status=status.HTTP_204_NO_CONTENT)
-
-
-
-# Search views
-
-class FrancesinhaSearch(generics.ListAPIView):
-    serializer_class = FrancesinhaSerializer
-
-    #url = /francesinhas/search?q=<query>
-    def get_queryset(self):
-        query = self.kwargs['q']
-        print(query)
-        return Francesinha.objects.filter(name__icontains=query)
-    
-class RestaurantSearch(generics.ListAPIView):
-    serializer_class = RestaurantSerializer
-
-    def get_queryset(self):
-        query = self.kwargs['q']
-        return Restaurant.objects.filter(name__icontains=query)
-
 
 # Custom views
 

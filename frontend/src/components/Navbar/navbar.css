@@ -2,5 +2,7 @@
   width: 100%;
   display: flex;
   justify-content: space-between;
-  /* Add color of francesinha sauce */
+  align-items: center;
+  background-color: #E47F00;
+  /* height: 5vh; */
 }

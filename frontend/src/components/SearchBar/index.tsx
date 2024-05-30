@@ -1,32 +1,35 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function SearchBar() {
 
-  const [type, setType] = useState('francesinha' as string);
+  const [type, setType] = useState('francesinhas' as string);
+  const [sort, setSort] = useState('name' as string);
   const navigate = useNavigate();
+  const search = useRef<HTMLInputElement>(null);
 
   const handleSearch = (event: any) => {
     if(event.key === "Enter" || event.type === "click"){
-      const search = document.querySelector('.search-input') as HTMLInputElement;
-      if(type === 'francesinha'){
-        //route to francesinha search page
-        navigate(`/francesinhas/search?q=${search.value}`);
-      }else if(type === 'restaurant'){
-        //route to restaurant search page
-        navigate(`/restaurants/search?q=${search.value}`);
-      }
-      console.log(search.value);
+        navigate(`/${type}/search?q=${search.current?.value}&sort=${sort}`);
     }
   }
 
 
+
+
   return (
     <div className="search-bar">
-      <input type="search" className="search-input" placeholder="Search" onKeyDown={handleSearch} />
+      <input type="search" className="search-input" placeholder="Search" ref={search} onKeyDown={handleSearch} />
       <select name="type" onChange={(event) => setType(event.target.value)}>
-        <option value="francesinha">Francesinha</option>
-        <option value="restaurant">Restaurant</option>
+        <option value="francesinhas">Francesinha</option>
+        <option value="restaurants">Restaurant</option>
+        <option value="ingredients">Ingredient</option>
+      </select>
+      <label>Sort By:</label>
+      <select name="sort" onChange={(event) => setSort(event.target.value)}>
+        <option value="name">Name</option>
+        {type !== 'ingredients' && <option value="rating">Rating</option>}
+        {type === 'francesinhas' && <option value="price">Price</option>}
       </select>
       <input type="submit" value="Search" onClick={handleSearch} />
     </div>

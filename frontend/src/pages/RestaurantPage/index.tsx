@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { apiRestaurants } from "../../api/api.tsx";
 import Restaurant from "../../components/Restaurant";
+import ErrorPage from "../ErrorPage";
 
 export default function RestaurantPage() {
   type Restaurant = {
@@ -42,7 +43,7 @@ export default function RestaurantPage() {
       {restaurant ? (
         <Restaurant restaurant={restaurant} />
       ) : (
-        <div className="error">{error}</div>
+        <ErrorPage errorMsg={error} />
       )}
     </>
   );

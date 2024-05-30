@@ -8,6 +8,14 @@ const axiosInstance = axios.create({
   }
 });
 
+const axiosInstanceFormData = axios.create({
+  baseURL: import.meta.env.VITE_API_URL as string,
+  timeout: 10000,
+  headers: {
+    'Content-Type': 'multipart/form-data',
+  }
+});
+
 
 export const apiFrancesinhas = {
   getFrancesinhas(){
@@ -20,16 +28,16 @@ export const apiFrancesinhas = {
     return axiosInstance.get(`/francesinhas/${id}/ingredients`);
   },
   createFrancesinha(data: any){
-    return axiosInstance.post('/francesinhas', data);
+    return axiosInstanceFormData.post('/francesinhas/', data);
   },
   updateFrancesinha(id: number, data: any){
-    return axiosInstance.put(`/francesinhas/${id}`, data);
+    return axiosInstanceFormData.put(`/francesinhas/${id}/`, data);
   },
   deleteFrancesinha(id: number){
     return axiosInstance.delete(`/francesinhas/${id}`);
   },
-  searchFrancesinhas(query: string){
-    return axiosInstance.get(`/francesinhas/?q=${query}`);
+  searchFrancesinhas(query: string, sort: string){
+    return axiosInstance.get(`/francesinhas/?q=${query}&sort=${sort}`);
   },
 }
 
@@ -41,13 +49,16 @@ export const apiIngredients = {
     return axiosInstance.get(`/ingredients/${id}`);
   },
   createIngredient(data: any){
-    return axiosInstance.post('/ingredients', data);
+    return axiosInstanceFormData.post('/ingredients/', data);
   },
   updateIngredient(id: number, data: any){
-    return axiosInstance.put(`/ingredients/${id}`, data);
+    return axiosInstanceFormData.put(`/ingredients/${id}/`, data);
   },
   deleteIngredient(id: number){
     return axiosInstance.delete(`/ingredients/${id}`);
+  },
+  searchIngredients(query: string, sort: string){
+    return axiosInstance.get(`/ingredients/?q=${query}&sort=${sort}`);
   },
 }
 
@@ -62,15 +73,15 @@ export const apiRestaurants = {
     return axiosInstance.get(`/restaurants/${id}/francesinhas`);
   },
   createRestaurant(data: any){
-    return axiosInstance.post('/restaurants', data);
+    return axiosInstanceFormData.post('/restaurants/', data);
   },
   updateRestaurant(id: number, data: any){
-    return axiosInstance.put(`/restaurants/${id}`, data);
+    return axiosInstanceFormData.put(`/restaurants/${id}/`, data);
   },
   deleteRestaurant(id: number){
     return axiosInstance.delete(`/restaurants/${id}`);
   },
-  searchRestaurants(query: string){
-    return axiosInstance.get(`/restaurants/?q=${query}`);
+  searchRestaurants(query: string, sort: string){
+    return axiosInstance.get(`/restaurants/?q=${query}&sort=${sort}`);
   },
 }

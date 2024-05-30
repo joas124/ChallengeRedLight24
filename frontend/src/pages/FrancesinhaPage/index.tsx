@@ -2,17 +2,19 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { fetchFrancesinha } from "../../utils";
 import Francesinha from "../../components/Francesinha";
+import ErrorPage from "../ErrorPage";
+
+type Francesinha = {
+  id: number;
+  name: string;
+  price: number;
+  rating: number;
+  image: any;
+  ingredients: any[];
+  restaurant: any;
+}
 
 export default function FrancesinhaPage() {
-  type Francesinha = {
-    id: number;
-    name: string;
-    price: number;
-    rating: number;
-    image: any;
-    ingredients: any[];
-    restaurant: any;
-  }
 
   const { id } = useParams<{id: string}>();
   const [francesinha, setFrancesinha] = useState<Francesinha | null>(null);
@@ -22,7 +24,7 @@ export default function FrancesinhaPage() {
   useEffect(() => {
     if (id){
       const francesinhaId = parseInt(id);
-      fetchFrancesinha(francesinhaId, setFrancesinha, setError);
+      fetchFrancesinha(francesinhaId, setFrancesinha, setError, false);
     }
   }, [id]);
 
@@ -31,7 +33,7 @@ export default function FrancesinhaPage() {
       {francesinha ? (
         <Francesinha francesinha={francesinha} />
         ) : (
-        <div className="error">{error}</div>
+        <ErrorPage errorMsg={error}/>
       )}
     </div>
   );

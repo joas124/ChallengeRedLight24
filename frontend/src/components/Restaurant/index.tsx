@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { removeRestaurant } from "../../utils";
+import Button from "../Button";
 
 export default function Restaurant(props: any) {
   const { restaurant } = props;
@@ -9,6 +10,10 @@ export default function Restaurant(props: any) {
   const handleDelete = async () => {
     if (!window.confirm("Are you sure you want to delete this Restaurant and all its Francesinhas?")) return;
     removeRestaurant(restaurant.id, navigate);
+  }
+
+  const handleEdit = () => {
+    navigate(`/restaurants/${restaurant.id}/edit`);
   }
 
   return (
@@ -27,8 +32,8 @@ export default function Restaurant(props: any) {
           </li>
         ))}
       </ul>
-      <button><Link to={`/restaurants/${restaurant.id}/edit`}>Edit</Link></button>
-      <button onClick={handleDelete}>Delete</button>
+      <Button text="Edit" handleClick={handleEdit}/>
+      <Button text="Delete" handleClick={handleDelete}/>
     </div>
   );
 }
