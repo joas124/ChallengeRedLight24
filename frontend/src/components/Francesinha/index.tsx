@@ -14,11 +14,7 @@ type Francesinha = {
   restaurant: any;
 }
 
-interface FrancesinhaProps {
-  francesinha: Francesinha;
-}
-
-export default function Francesinha( {francesinha} : FrancesinhaProps ) {
+export default function Francesinha( {francesinha} : {francesinha: Francesinha} ) {
   const navigate = useNavigate();
 
   const handleDelete = async () => {

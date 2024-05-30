@@ -4,8 +4,17 @@ import { removeRestaurant } from "../../utils";
 import Button from "../Button";
 import StarRating from "../StarRating";
 
-export default function Restaurant(props: any) {
-  const { restaurant } = props;
+type Restaurant = {
+  id: number;
+  name: string;
+  address: string;
+  city: string;
+  country: string;
+  francesinhas: any[];
+  rating: number;
+}
+
+export default function Restaurant({restaurant}: {restaurant: Restaurant}) {
   const navigate = useNavigate();
 
 

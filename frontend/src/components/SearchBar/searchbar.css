@@ -42,5 +42,6 @@
     font-size: 0.7rem;
     border: none;
     outline: none;
+    cursor: pointer;
   }
 }

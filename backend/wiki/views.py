@@ -249,9 +249,3 @@ class IngredientListByFrancesinha(generics.ListAPIView):
         francesinha_id = self.kwargs['francesinha_id']
         return Ingredient.objects.filter(francesinha=francesinha_id)
     
-class FrancesinhaListByIngredient(generics.ListAPIView):
-    serializer_class = FrancesinhaSerializer
-
-    def get_queryset(self):
-        ingredient_id = self.kwargs['ingredient_id']
-        return Francesinha.objects.filter(ingredients=ingredient_id)

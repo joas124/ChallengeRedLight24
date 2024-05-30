@@ -5,12 +5,14 @@
     align-items: center;
     height: 100vh;
     background-color: #E47F00;
+    color: #ffff;
 
     .search-bar-landing{
         width: 70%;
         display: flex;
         flex-direction: column;
         justify-content: center;
+        margin-top: 30px;
 
         .search-bar-selects{
             justify-content: center;
@@ -37,5 +39,10 @@
             font-size: 1.1rem;
             cursor: pointer;
         }
+    }
+    p {
+        margin: 0;
+        font-size: 1.3rem;
+        color: #ffff;
     }
 }

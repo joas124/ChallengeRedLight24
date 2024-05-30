@@ -5,16 +5,16 @@ import { apiRestaurants } from "../../api/api.tsx";
 import Restaurant from "../../components/Restaurant";
 import ErrorPage from "../ErrorPage";
 
+type Restaurant = {
+  id: number;
+  name: string;
+  address: string;
+  city: string;
+  country: string;
+  francesinhas: any[];
+  rating: number;
+}
 export default function RestaurantPage() {
-  type Restaurant = {
-    id: number;
-    name: string;
-    address: string;
-    city: string;
-    country: string;
-    francesinhas: any[];
-    rating: number;
-  }
 
   const { id } = useParams<{id: string}>();
   const [restaurant, setRestaurant] = useState<Restaurant | null>(null);
