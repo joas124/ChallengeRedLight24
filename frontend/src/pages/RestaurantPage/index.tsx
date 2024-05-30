@@ -1,3 +1,4 @@
+import "./restaurant-page.css";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { apiRestaurants } from "../../api/api.tsx";
@@ -39,13 +40,13 @@ export default function RestaurantPage() {
   }, [id]);
 
   return (
-    <>
+    <div className="restaurant-page">
       {restaurant ? (
         <Restaurant restaurant={restaurant} />
       ) : (
         <ErrorPage errorMsg={error} />
       )}
-    </>
+    </div>
   );
 
 }

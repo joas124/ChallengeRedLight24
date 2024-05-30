@@ -36,7 +36,7 @@ export const apiFrancesinhas = {
   deleteFrancesinha(id: number){
     return axiosInstance.delete(`/francesinhas/${id}`);
   },
-  searchFrancesinhas(query: string, sort: string){
+  searchFrancesinhas(query: string|null, sort: string|null){
     return axiosInstance.get(`/francesinhas/?q=${query}&sort=${sort}`);
   },
 }
@@ -57,7 +57,7 @@ export const apiIngredients = {
   deleteIngredient(id: number){
     return axiosInstance.delete(`/ingredients/${id}`);
   },
-  searchIngredients(query: string, sort: string){
+  searchIngredients(query: string|null, sort: string|null){
     return axiosInstance.get(`/ingredients/?q=${query}&sort=${sort}`);
   },
 }
@@ -81,7 +81,7 @@ export const apiRestaurants = {
   deleteRestaurant(id: number){
     return axiosInstance.delete(`/restaurants/${id}`);
   },
-  searchRestaurants(query: string, sort: string){
+  searchRestaurants(query: string|null, sort: string|null){
     return axiosInstance.get(`/restaurants/?q=${query}&sort=${sort}`);
   },
 }

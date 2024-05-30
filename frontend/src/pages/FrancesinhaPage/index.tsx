@@ -1,3 +1,4 @@
+import "./francesinha-page.css";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { fetchFrancesinha } from "../../utils";
@@ -29,7 +30,7 @@ export default function FrancesinhaPage() {
   }, [id]);
 
   return (
-    <div>
+    <div className="francesinha-page">
       {francesinha ? (
         <Francesinha francesinha={francesinha} />
         ) : (

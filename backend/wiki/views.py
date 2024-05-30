@@ -33,11 +33,17 @@ class FrancesinhaListCreate(generics.ListCreateAPIView):
     def get_queryset(self):
         query = self.request.query_params.get('q', None)
         sort = self.request.query_params.get('sort', None)
-        if (query and sort):
+        result = Francesinha.objects.all()
+        if (query):
+            result = result.filter(name__icontains=query)
+        if (sort):
             if (sort == 'rating'):
-                return Francesinha.objects.filter(name__icontains=query).order_by(sort).reverse()
-            return Francesinha.objects.filter(name__icontains=query).order_by(sort)
-        return Francesinha.objects.all()
+                result = result.order_by(sort).reverse()
+            else:
+                result = result.order_by(sort)
+        print(result)
+        print(sort)
+        return result
         
 
 class IngredientListCreate(generics.ListCreateAPIView):
@@ -67,9 +73,12 @@ class IngredientListCreate(generics.ListCreateAPIView):
     def get_queryset(self):
         query = self.request.query_params.get('q', None)
         sort = self.request.query_params.get('sort', None)
-        if (query and sort):
-            return Ingredient.objects.filter(name__icontains=query).order_by(sort)
-        return Ingredient.objects.all()
+        result = Ingredient.objects.all()
+        if (query):
+            result = result.filter(name__icontains=query)
+        if (sort):
+            result = result.order_by(sort)
+        return result
         
 
 class RestaurantListCreate(generics.ListCreateAPIView):
@@ -98,9 +107,15 @@ class RestaurantListCreate(generics.ListCreateAPIView):
     def get_queryset(self):
         query = self.request.query_params.get('q', None)
         sort = self.request.query_params.get('sort', None)
-        if (query and sort):
-            return Restaurant.objects.filter(name__icontains=query).order_by(sort)
-        return Restaurant.objects.all()
+        result = Restaurant.objects.all()
+        if (query):
+            result = result.filter(name__icontains=query)
+        if (sort):
+            if (sort == 'rating'):
+                result = result.order_by(sort).reverse()
+            else:
+                result = result.order_by(sort)
+        return result
         
         
     

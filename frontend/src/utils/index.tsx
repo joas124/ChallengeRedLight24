@@ -5,7 +5,7 @@ import { apiFrancesinhas, apiRestaurants, apiIngredients } from "../api/api";
 export const fetchFrancesinhas = async (query: string|null, sort: string|null, setFrancesinhas: Function) => {
   try {
     let response: any;
-    if (query && sort) {
+    if (query || sort) {
       response = await apiFrancesinhas.searchFrancesinhas(query, sort);
     } else {
       response = await apiFrancesinhas.getFrancesinhas();

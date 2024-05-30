@@ -1,5 +1,6 @@
+import "./francesinhas-list.css";
 import { useState, useEffect } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { fetchFrancesinhas } from "../../utils";
 import Button from "../../components/Button";
 
@@ -9,8 +10,12 @@ export default function FrancesinhasListPage(){
 
   const navigate = useNavigate();
 
-  const handleClick = () => {
+  const handleAdd = () => {
     navigate('/francesinhas/add');
+  }
+
+  const handleClick = (id: number) => {
+    navigate(`/francesinhas/${id}`);
   }
 
   useEffect(() => {
@@ -21,18 +26,22 @@ export default function FrancesinhasListPage(){
   }, [location.search, location.pathname]);
 
   return (
-    <div className="francesinha-list">
-      <h1>Francesinhas</h1>
+    <div className="list-page">
+      <div className="list-header">
+        <h1>Francesinhas</h1>
+        <Button text="Add New Francesinha" handleClick={handleAdd}/>
+      </div>
       { francesinhas.length === 0 ? (<p>No francesinhas found</p>) : (
-        <ul>
+        <ul className="list">
           {francesinhas.map((francesinha: any) => (
-            <li key={francesinha.id} className="francesinha">
-              <Link to={`/francesinhas/${francesinha.id}`}>{francesinha.name}</Link>
+            <li key={francesinha.id} className="list-element" onClick={() => handleClick(francesinha.id)}>
+              <h2>{francesinha.name}</h2>
+              {francesinha.image && <img src={francesinha.image} className="francesinha-img" alt={francesinha.name} />}
+              <p>{francesinha.rating}⭐ | {francesinha.price}€</p>
             </li>
           ))}
         </ul>
       )}
-      <Button text="Add New Francesinha" handleClick={handleClick}/>
     </div>
   );
 }

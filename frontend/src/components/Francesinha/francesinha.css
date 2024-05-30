@@ -1,0 +1,57 @@
+.francesinha {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+
+  .francesinha-content {
+    display: flex;
+    width: 100%;
+    margin-top: 20px;
+    justify-content: center;
+
+    .francesinha-image {
+      padding-left: 40px;
+      padding-right: 40px;
+      width: 30%;
+      margin-top: 20px;
+    }
+
+    .francesinha-info {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr); /* 2x2 grid */
+      gap: 30px;
+      margin-top: 20px;
+    }
+
+    .francesinha-info > div {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 10px;
+    }
+
+    .ingredient-list {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      list-style: none;
+      padding: 0;
+    }
+
+    .francesinha-info h2 {
+      margin-top: 0;
+    }
+
+  }
+
+  .francesinha-buttons{
+    display: flex;
+    justify-content: center;
+    margin-top: 20px; 
+
+    button {
+      margin: 0 10px;
+    }
+  }
+}

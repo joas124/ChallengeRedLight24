@@ -17,7 +17,7 @@ export default function LandingPage() {
   return (
     <div className='landing-page'>
       <h1>Welcome to the Francesinha Wiki!</h1>
-      <SearchBar />
+      <SearchBar className="search-bar-landing" />
       <div className='landing-page-buttons'>
         <Button text='All Francesinhas' handleClick={handleFrancesinhasClick} />
         <Button text='All Restaurants' handleClick={handleRestaurantsClick} />

@@ -1,0 +1,40 @@
+.restaurant{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+
+
+    .restaurant-content{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        margin: 0 20px;
+
+        .restaurant-info{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            /* grid-template-columns: repeat(2, 1fr); */
+            margin-right: 50px;        
+        }
+
+        .restaurant-francesinhas-list{
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-gap: 20px;
+            margin-left: 50px;
+        }
+    }
+
+    .restaurant-buttons{
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+
+        button{
+            margin: 0 10px;
+        }
+    }
+}

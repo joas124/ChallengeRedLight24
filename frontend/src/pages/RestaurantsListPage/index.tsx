@@ -1,5 +1,6 @@
+import "./restaurants-list.css";
 import { useState, useEffect } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { fetchRestaurants } from "../../utils";
 import Button from "../../components/Button";
 
@@ -9,8 +10,12 @@ export default function RestaurantsListPage(){
 
   const navigate = useNavigate();
 
-  const handleClick = () => {
+  const handleAdd = () => {
     navigate('/restaurants/add');
+  }
+
+  const handleClick = (id: number) => {
+    navigate(`/restaurants/${id}`);
   }
 
   useEffect(() => {
@@ -21,18 +26,22 @@ export default function RestaurantsListPage(){
   }, [location.search, location.pathname]);
 
   return (
-    <div className="restaurant-list">
-      <h1>Restaurants</h1>
+    <div className="list-page">
+      <div className="list-header">
+        <h1>Restaurants</h1>
+        <Button text="Add New Restaurant" handleClick={handleAdd}/>
+      </div>
       { restaurants.length === 0 ? (<p>No restaurants found</p>) : (
-        <ul>
+        <ul className="list">
           {restaurants.map((restaurant: any) => (
-            <li key={restaurant.id} className="restaurant">
-              <Link to={`/restaurants/${restaurant.id}`}>{restaurant.name}</Link>
+            <li key={restaurant.id} className="list-element" onClick={() => handleClick(restaurant.id)}>
+              <h2 className="restaurant-title">{restaurant.name}</h2>
+              <p>{restaurant.rating}⭐</p>
+              <p>{restaurant.city} - {restaurant.country}</p>
             </li>
           ))}
         </ul>
       )}
-      <Button text="Add New Restaurant" handleClick={handleClick}/>
     </div>
   );
 }

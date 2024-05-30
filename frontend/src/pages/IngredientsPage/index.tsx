@@ -1,9 +1,10 @@
+import "./ingredients-page.css";
 import { useEffect, useState } from "react";
 import { fetchIngredients } from "../../utils";
 import { apiIngredients } from "../../api/api";
 import { AxiosError } from "axios";
-import Button from "../../components/Button";
 import { useLocation } from "react-router-dom";
+import Button from "../../components/Button";
 
 
 export default function IngredientPage() {
@@ -80,20 +81,24 @@ export default function IngredientPage() {
 
   //List all ingredients, and besides the name, show a button to delete and to edit the ingredient
   return (
-    <>
-      <h1>Ingredients</h1>
+    <div className="list-page">
+      <div className="list-header">
+        <h1>Ingredients</h1>
+        <Button text="Add New Ingredient" handleClick={handleAdd}/>
+      </div>
       {!ingredients ? (<p>No Ingredients Found!</p>) : (
-        <ul>
+        <ul className="ingredients-list">
           {ingredients.map((ingredient: any) => (
             <li key={ingredient.id} className="ingredient">
-              {ingredient.name}
-              <Button text="Edit" handleClick={() => handleEdit(ingredient.id, ingredient.name)}/>
-              <Button text="Delete" handleClick={() => handleDelete(ingredient.id, ingredient.name)}/>
+              <h2>{ingredient.name}</h2>
+              <div className="ingredient-buttons">
+                <Button text="Edit" handleClick={() => handleEdit(ingredient.id, ingredient.name)}/>
+                <Button text="Delete" handleClick={() => handleDelete(ingredient.id, ingredient.name)}/>
+              </div>
             </li>
           ))}
         </ul>
       )}
-      <Button text="Add New Ingredient" handleClick={handleAdd}/>
-    </>
+    </div>
   );
 }
