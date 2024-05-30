@@ -125,7 +125,8 @@ class FrancesinhaRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
 
         # Save current image if no new image is provided
         if not image:
-            data['image'] = instance.image
+            if instance.image:
+                data['image'] = instance.image
         else:
             instance.image.delete(save=False)
         
