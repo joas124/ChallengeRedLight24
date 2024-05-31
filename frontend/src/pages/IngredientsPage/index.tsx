@@ -5,12 +5,12 @@ import { apiIngredients } from "../../api/api";
 import { AxiosError } from "axios";
 import { useLocation } from "react-router-dom";
 import Button from "../../components/Button";
-import type { Ingredient } from "../../utils";
+import type { IngredientType } from "../../utils";
 
 
 export default function IngredientPage() {
 
-  const [ingredients, setIngredients] = useState<Ingredient[] | null>(null);
+  const [ingredients, setIngredients] = useState<IngredientType[] | null>(null);
   const location = useLocation();
 
   const handleAdd = async () => {

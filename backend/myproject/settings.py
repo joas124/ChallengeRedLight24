@@ -54,7 +54,8 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_ALL_ORIGINS = True
+
 
 ROOT_URLCONF = "myproject.urls"
 
@@ -80,6 +81,7 @@ WSGI_APPLICATION = "myproject.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+# Read from environment variables
 
 DATABASES = {
 
@@ -88,7 +90,7 @@ DATABASES = {
         'NAME': 'wiki',
         'USER': 'redlight',
         'PASSWORD': 'redlight',
-        'HOST': 'localhost',
+        'HOST': 'database',
         'PORT': '5432',
     }
 

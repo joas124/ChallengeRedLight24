@@ -1,3 +1,4 @@
+import "./francesinha-form.css";
 import { useParams, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { fetchFrancesinha, fetchIngredients, fetchRestaurants } from '../../utils';
@@ -6,28 +7,14 @@ import { AxiosResponse, AxiosError } from 'axios';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 import ErrorPage from '../ErrorPage/index.tsx';
+import type { FrancesinhaType, IngredientType } from '../../utils';
 
 export default function FrancesinhaFormPage() {
-  type Francesinha = {
-    id: number;
-    name: string;
-    price: number;
-    rating: number;
-    image: any;
-    ingredients: any[];
-    restaurant: any;
-  }
-
-  type Ingredient = {
-    id: number;
-    name: string;
-  }
-
 
   const navigate = useNavigate();
   const { id } = useParams<{id: string}>();
-  const [francesinha, setFrancesinha] = useState<Francesinha | null>(null);
-  const [ingredients, setIngredients] = useState<Ingredient[]>([]);
+  const [francesinha, setFrancesinha] = useState<FrancesinhaType | null>(null);
+  const [ingredients, setIngredients] = useState<IngredientType[]>([]);
   const [restaurants, setRestaurants] = useState<number[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
@@ -86,29 +73,32 @@ export default function FrancesinhaFormPage() {
       {francesinha ? (
         <div className="form-div">
         {id ?  (<h1>Editing {francesinha.name}</h1>) : (<h1>Add Francesinha</h1>  )}
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} >
           <Input label="Name" name="name" error={fieldErrors.name} defaultVal={francesinha.name} />
           <Input label="Price" name="price" error={fieldErrors.price} defaultVal={francesinha.price} />
           <Input label="Rating" name="rating" error={fieldErrors.rating} defaultVal={francesinha.rating} />
           <Input label="Image" name="image" error={fieldErrors.image} type='file'/>
           <label>Ingredients:</label>
-          {fieldErrors.ingredients && <span className="error">{fieldErrors.ingredients}</span>}
-          <ul>
-            {ingredients.map((ingredient: Ingredient) => (
-              <li key={ingredient.id}>
-                <input type='checkbox' name='ingredients' value={ingredient.id} defaultChecked={francesinha.ingredients.includes(ingredient.id)} />
-                {ingredient.name}
-              </li>
-            ))}
-          </ul>
+          <div className="input">
+            {fieldErrors.ingredients && <span className="error">{fieldErrors.ingredients}</span>}
+            <ul className="form-ingredients">
+              {ingredients.map((ingredient: IngredientType) => (
+                <li key={ingredient.id}>
+                  <input type='checkbox' name='ingredients' value={ingredient.id} defaultChecked={francesinha.ingredients.includes(ingredient.id)} />
+                  {ingredient.name}
+                </li>
+              ))}
+            </ul>
+          </div>
           <label>Restaurant:</label>
-          {fieldErrors.restaurant && <span className="error">{fieldErrors.restaurant}</span>}
-          <select name='restaurant' defaultValue={francesinha.restaurant.id}>
-            {restaurants.map((restaurant:any) => (
-              <option key={restaurant.id} value={restaurant.id}>{restaurant.name}</option>
-            ))}
-          </select>
-          
+          <div className="input">
+            {fieldErrors.restaurant && <span className="error">{fieldErrors.restaurant}</span>}
+            <select name='restaurant' defaultValue={francesinha.restaurant.id}>
+              {restaurants.map((restaurant:any) => (
+                <option key={restaurant.id} value={restaurant.id}>{restaurant.name}</option>
+              ))}
+            </select>
+          </div>
           <Button text='Submit' type='submit' />
           <Button text='Cancel' type='button' handleClick={() => navigate(-1)} />
         </form>

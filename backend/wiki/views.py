@@ -109,7 +109,7 @@ class RestaurantListCreate(generics.ListCreateAPIView):
         return result
     
 class FrancesinhaRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Francesinha.objects.filter(deleted=False)
+    queryset = Francesinha.objects.all()
     serializer_class = FrancesinhaSerializer
 
     def update(self, request, *args, **kwargs):
@@ -158,7 +158,7 @@ class FrancesinhaRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 class IngredientRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Ingredient.objects.filter(deleted=False)
+    queryset = Ingredient.objects.all()
     serializer_class = IngredientSerializer
 
     def update(self, request, *args, **kwargs):
@@ -199,7 +199,7 @@ class IngredientRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 class RestaurantRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Restaurant.objects.filter(deleted=False)
+    queryset = Restaurant.objects.all()
     serializer_class = RestaurantSerializer
 
     def update(self, request, *args, **kwargs):
@@ -299,6 +299,9 @@ class RestoreFrancesinha(generics.UpdateAPIView):
     def update(self, request, *args, **kwargs):
         instance = self.get_object()
         instance.deleted = False
+        # Also restore the restaurant (if it was deleted)
+        instance.restaurant.deleted = False
+        instance.restaurant.save()
         instance.save()
         return Response(status=status.HTTP_200_OK)
     

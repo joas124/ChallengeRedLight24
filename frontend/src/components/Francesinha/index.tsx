@@ -3,11 +3,11 @@ import { Link, useNavigate } from "react-router-dom";
 import { apiFrancesinhas } from "../../api/api";
 import Button from "../Button";
 import StarRating from "../StarRating";
-import type { Francesinha } from "../../utils";
+import type { FrancesinhaType } from "../../utils";
 
 
 
-export default function Francesinha( {francesinha} : {francesinha: Francesinha} ) {
+export default function Francesinha( {francesinha} : {francesinha: FrancesinhaType} ) {
   const navigate = useNavigate();
 
   const handleDelete = async () => {

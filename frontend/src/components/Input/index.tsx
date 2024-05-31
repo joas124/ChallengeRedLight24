@@ -11,8 +11,10 @@ export default function Input({ label, name, error, defaultVal, type='text'} : I
   return (
     <>
       <label>{label}</label>
-      {error && <span className="error">{error}</span>}
-      <input type={type} name={name} defaultValue={defaultVal} />
+      <div className="input">
+        {error && <span className="error">{error}</span>}
+        <input type={type} name={name} defaultValue={defaultVal} />
+      </div>
     </>
   )
 }

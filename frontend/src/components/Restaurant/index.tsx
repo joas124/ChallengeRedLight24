@@ -3,10 +3,10 @@ import { Link, useNavigate } from "react-router-dom";
 import { apiRestaurants } from "../../api/api";
 import Button from "../Button";
 import StarRating from "../StarRating";
-import type { Restaurant } from "../../utils";
+import type { RestaurantType, FrancesinhaType } from "../../utils";
 
 
-export default function Restaurant({restaurant}: {restaurant: Restaurant}) {
+export default function Restaurant({restaurant, francesinhas}: {restaurant: RestaurantType, francesinhas: FrancesinhaType[]}) {
   const navigate = useNavigate();
 
 
@@ -37,9 +37,9 @@ export default function Restaurant({restaurant}: {restaurant: Restaurant}) {
         </div>
         <div className="restaurant-francesinhas">
           <h2>Francesinhas</h2>
-          {restaurant.francesinhas.length === 0 && <p>No francesinhas found</p>}
+          {francesinhas.length === 0 && <p>No francesinhas found</p>}
           <ul className="restaurant-francesinhas-list">
-            {restaurant.francesinhas.map((francesinha: any) => (
+            {francesinhas.map((francesinha: any) => (
               <li key={francesinha.id} className="francesinha-item">
                 <Link to={`/francesinhas/${francesinha.id}`}>{francesinha.name}</Link>
               </li>

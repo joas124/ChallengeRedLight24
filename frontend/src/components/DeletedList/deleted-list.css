@@ -1,0 +1,14 @@
+.deleted-list ul{
+  padding: 0;
+}
+
+
+.deleted-item-buttons{
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+
+    button{
+        margin: 0 10px;
+    }
+}

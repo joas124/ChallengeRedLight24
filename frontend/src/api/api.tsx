@@ -37,11 +37,11 @@ export const apiFrancesinhas = {
     return axiosInstanceFormData.put(`/francesinhas/${id}/`, data);
   },
   deleteFrancesinha(id: number, hard: boolean = false){
-    return axiosInstance.delete(`/francesinhas/${id}${hard ? "?hard=true" : ""}`);
+    return axiosInstance.delete(`/francesinhas/${id}${hard ? "/?hard=true" : ""}`);
   },
   restoreFrancesinha(id: number){
-    return axiosInstance.post(`/francesinhas/${id}/restore`);
-  },
+    return axiosInstance.put(`/francesinhas/${id}/restore/`);
+  }, 
   searchFrancesinhas(query: string|null, sort: string|null){
     return axiosInstance.get(`/francesinhas/?q=${query ? query : ""}&sort=${sort ? sort : ""}`);
   },
@@ -64,7 +64,10 @@ export const apiIngredients = {
     return axiosInstanceFormData.put(`/ingredients/${id}/`, data);
   },
   deleteIngredient(id: number, hard: boolean = false){
-    return axiosInstance.delete(`/ingredients/${id}${hard ? "?hard=true" : ""}`);
+    return axiosInstance.delete(`/ingredients/${id}${hard ? "/?hard=true" : ""}`);
+  },
+  restoreIngredient(id: number){
+    return axiosInstance.put(`/ingredients/${id}/restore/`);
   },
   searchIngredients(query: string|null, sort: string|null){
     return axiosInstance.get(`/ingredients/?q=${query ? query : ""}&sort=${sort ? sort : ""}`);
@@ -91,7 +94,10 @@ export const apiRestaurants = {
     return axiosInstanceFormData.put(`/restaurants/${id}/`, data);
   },
   deleteRestaurant(id: number, hard: boolean = false){
-    return axiosInstance.delete(`/restaurants/${id}${hard ? "?hard=true" : ""}`);
+    return axiosInstance.delete(`/restaurants/${id}${hard ? "/?hard=true" : ""}`);
+  },
+  restoreRestaurant(id: number){
+    return axiosInstance.put(`/restaurants/${id}/restore/`);
   },
   searchRestaurants(query: string|null, sort: string|null){
     return axiosInstance.get(`/restaurants/?q=${query ? query : ""}&sort=${sort ? sort : ""}`);

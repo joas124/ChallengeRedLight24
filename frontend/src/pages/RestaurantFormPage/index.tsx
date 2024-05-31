@@ -6,20 +6,13 @@ import { AxiosResponse, AxiosError } from 'axios';
 import Input from '../../components/Input/index.tsx';
 import Button from '../../components/Button/index.tsx';
 import ErrorPage from '../ErrorPage/index.tsx';
+import type { RestaurantType } from '../../utils';
 
 export default function RestaurantFormPage() {
-  type Restaurant = {
-    id: number;
-    name: string;
-    address: string;
-    city: string;
-    country: string;
-    rating: number;
-  }
 
   const navigate = useNavigate();
   const { id } = useParams<{id: string}>();
-  const [restaurant, setRestaurant] = useState<Restaurant | null>(null);
+  const [restaurant, setRestaurant] = useState<RestaurantType | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
 
@@ -68,11 +61,10 @@ export default function RestaurantFormPage() {
       }
     }
   };
-  //props: restaurant, fieldErrors, handleSubmit, navigate
   return (
     <>
       {restaurant ? (
-        <div className="form-class">
+        <div className="form-div">
         {id ? (<h1>Editing Restaurant '{restaurant.name}'</h1>) : (<h1>Create Restaurant</h1>)}
         <form onSubmit={handleSubmit}>
           <Input name="name" label="Name:" defaultVal={restaurant.name} error={fieldErrors.name} />

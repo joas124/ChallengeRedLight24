@@ -1,7 +1,7 @@
 import { apiFrancesinhas, apiRestaurants, apiIngredients } from "../api/api";
 
 //Types
-export type Francesinha = {
+export type FrancesinhaType = {
   id: number;
   name: string;
   price: number;
@@ -11,17 +11,16 @@ export type Francesinha = {
   restaurant: any;
 }
 
-export type Restaurant = {
+export type RestaurantType = {
   id: number;
   name: string;
   address: string;
   city: string;
   country: string;
-  francesinhas: any[];
   rating: number;
 }
 
-export type Ingredient = {
+export type IngredientType = {
   id: number;
   name: string;
 }
@@ -66,6 +65,9 @@ export const fetchFrancesinha = async (id: number, setFrancesinha: Function, set
       apiFrancesinhas.getFrancesinhaIngredients(id),
       apiFrancesinhas.getFrancesinha(id),
     ]);
+    if (francesinhaResponse.data.deleted) {
+      throw new Error('Francesinha deleted');
+    }
     const restaurantResponse = await apiRestaurants.getRestaurant(francesinhaResponse.data.restaurant);
     francesinhaResponse.data.restaurant = restaurantResponse.data;
     if(!isForm) {
@@ -80,6 +82,9 @@ export const fetchFrancesinha = async (id: number, setFrancesinha: Function, set
 export const fetchRestaurant = async (id: number, setRestaurant: Function, setError: Function) => {
   try {
     const response = await apiRestaurants.getRestaurant(id);
+    if(response.data.deleted) {
+      throw new Error('Restaurant deleted');
+    }
     setRestaurant(response.data);
   } catch (error) {
     setError(`Restaurant with id ${id} not found`);
