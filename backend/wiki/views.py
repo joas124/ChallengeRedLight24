@@ -7,11 +7,8 @@ from django.http import HttpResponse
 from django.conf import settings
 import os
 
-# Create your views here.
-
 # Generic views
 class FrancesinhaListCreate(generics.ListCreateAPIView):
-    queryset = Francesinha.objects.all()
     serializer_class = FrancesinhaSerializer
 
     def create(self, request, *args, **kwargs):
@@ -33,21 +30,17 @@ class FrancesinhaListCreate(generics.ListCreateAPIView):
     def get_queryset(self):
         query = self.request.query_params.get('q', None)
         sort = self.request.query_params.get('sort', None)
-        result = Francesinha.objects.all()
-        if (query):
+        result = Francesinha.objects.filter(deleted=False)
+        if query:
             result = result.filter(name__icontains=query)
-        if (sort):
-            if (sort == 'rating'):
+        if sort:
+            if sort == 'rating':
                 result = result.order_by(sort).reverse()
             else:
                 result = result.order_by(sort)
-        print(result)
-        print(sort)
         return result
-        
 
 class IngredientListCreate(generics.ListCreateAPIView):
-    queryset = Ingredient.objects.all()
     serializer_class = IngredientSerializer
 
     def create(self, request, *args, **kwargs):
@@ -60,7 +53,7 @@ class IngredientListCreate(generics.ListCreateAPIView):
             serializer.is_valid(raise_exception=True)
             # Check if the ingredient already exists
             name = serializer.validated_data.get('name')
-            if (Ingredient.objects.filter(name=name).exists()):
+            if Ingredient.objects.filter(name=name).exists():
                 return Response({'detail': 'Ingredient already exists'}, status=status.HTTP_400_BAD_REQUEST)
             self.perform_create(serializer)
             headers = self.get_success_headers(serializer.data)
@@ -73,16 +66,14 @@ class IngredientListCreate(generics.ListCreateAPIView):
     def get_queryset(self):
         query = self.request.query_params.get('q', None)
         sort = self.request.query_params.get('sort', None)
-        result = Ingredient.objects.all()
-        if (query):
+        result = Ingredient.objects.filter(deleted=False)
+        if query:
             result = result.filter(name__icontains=query)
-        if (sort):
+        if sort:
             result = result.order_by(sort)
         return result
-        
 
 class RestaurantListCreate(generics.ListCreateAPIView):
-    queryset = Restaurant.objects.all()
     serializer_class = RestaurantSerializer
 
     def create(self, request, *args, **kwargs):
@@ -107,21 +98,18 @@ class RestaurantListCreate(generics.ListCreateAPIView):
     def get_queryset(self):
         query = self.request.query_params.get('q', None)
         sort = self.request.query_params.get('sort', None)
-        result = Restaurant.objects.all()
-        if (query):
+        result = Restaurant.objects.filter(deleted=False)
+        if query:
             result = result.filter(name__icontains=query)
-        if (sort):
-            if (sort == 'rating'):
+        if sort:
+            if sort == 'rating':
                 result = result.order_by(sort).reverse()
             else:
                 result = result.order_by(sort)
         return result
-        
-        
     
-
 class FrancesinhaRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Francesinha.objects.all()
+    queryset = Francesinha.objects.filter(deleted=False)
     serializer_class = FrancesinhaSerializer
 
     def update(self, request, *args, **kwargs):
@@ -131,7 +119,6 @@ class FrancesinhaRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
 
         image = data.get('image', None)
             
-        
         # Sanitize inputs
         if 'name' in data:
             data['name'] = escape(data['name'])
@@ -154,16 +141,24 @@ class FrancesinhaRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
             return Response(e.detail, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
             return Response({'detail': 'An error occurred'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-        
+    
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
-        instance.image.delete(save=False)
-        self.perform_destroy(instance)
+        hard_delete = request.query_params.get('hard', 'false').lower() == 'true'
+        
+        if hard_delete:
+            # Hard delete
+            instance.image.delete(save=False)
+            self.perform_destroy(instance)
+        else:
+            # Soft delete
+            instance.deleted = True
+            instance.save()
+        
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-
 class IngredientRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Ingredient.objects.all()
+    queryset = Ingredient.objects.filter(deleted=False)
     serializer_class = IngredientSerializer
 
     def update(self, request, *args, **kwargs):
@@ -180,7 +175,7 @@ class IngredientRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
             serializer.is_valid(raise_exception=True)
             # Check if the ingredient already exists
             name = serializer.validated_data.get('name')
-            if (Ingredient.objects.filter(name=name).exists()):
+            if Ingredient.objects.filter(name=name).exists():
                 return Response({'detail': 'Ingredient already exists'}, status=status.HTTP_400_BAD_REQUEST)
             self.perform_update(serializer)
             return Response(serializer.data)
@@ -189,8 +184,22 @@ class IngredientRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
         except Exception as e:
             return Response({'detail': 'An error occurred'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        hard_delete = request.query_params.get('hard', 'false').lower() == 'true'
+        
+        if hard_delete:
+            # Hard delete
+            self.perform_destroy(instance)
+        else:
+            # Soft delete
+            instance.deleted = True
+            instance.save()
+        
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
 class RestaurantRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Restaurant.objects.all()
+    queryset = Restaurant.objects.filter(deleted=False)
     serializer_class = RestaurantSerializer
 
     def update(self, request, *args, **kwargs):
@@ -219,13 +228,25 @@ class RestaurantRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
             return Response({'detail': 'An error occurred'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     
     def destroy(self, request, *args, **kwargs):
-        # Delete all francesinhas from this restaurant, and their images
         instance = self.get_object()
-        francesinhas = Francesinha.objects.filter(restaurant=instance.id)
-        for francesinha in francesinhas:
-            francesinha.image.delete(save=False)
-            francesinha.delete()
-        self.perform_destroy(instance)
+        hard_delete = request.query_params.get('hard', 'false').lower() == 'true'
+        
+        if hard_delete:
+            # Hard delete all francesinhas from this restaurant, and their images
+            francesinhas = Francesinha.objects.filter(restaurant=instance.id)
+            for francesinha in francesinhas:
+                francesinha.image.delete(save=False)
+                francesinha.delete()
+            self.perform_destroy(instance)
+        else:
+            # Soft delete all francesinhas from this restaurant
+            francesinhas = Francesinha.objects.filter(restaurant=instance.id)
+            for francesinha in francesinhas:
+                francesinha.deleted = True
+                francesinha.save()
+            instance.deleted = True
+            instance.save()
+        
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 # Custom views
@@ -240,12 +261,63 @@ class FrancesinhaListByRestaurant(generics.ListAPIView):
 
     def get_queryset(self):
         restaurant_id = self.kwargs['restaurant_id']
-        return Francesinha.objects.filter(restaurant=restaurant_id)
+        return Francesinha.objects.filter(restaurant=restaurant_id, deleted=False)
     
 class IngredientListByFrancesinha(generics.ListAPIView):
     serializer_class = IngredientSerializer
 
     def get_queryset(self):
         francesinha_id = self.kwargs['francesinha_id']
-        return Ingredient.objects.filter(francesinha=francesinha_id)
+        return Ingredient.objects.filter(francesinha=francesinha_id, deleted=False)
+
+# Views for deleted objects
+
+class DeletedFrancesinhaList(generics.ListAPIView):
+    serializer_class = FrancesinhaSerializer
+
+    def get_queryset(self):
+        return Francesinha.objects.filter(deleted=True)
     
+class DeletedIngredientList(generics.ListAPIView):
+    serializer_class = IngredientSerializer
+
+    def get_queryset(self):
+        return Ingredient.objects.filter(deleted=True)
+    
+class DeletedRestaurantList(generics.ListAPIView):
+    serializer_class = RestaurantSerializer
+
+    def get_queryset(self):
+        return Restaurant.objects.filter(deleted=True)
+
+# Views for restoring objects
+
+class RestoreFrancesinha(generics.UpdateAPIView):
+    queryset = Francesinha.objects.filter(deleted=True)
+    serializer_class = FrancesinhaSerializer
+
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        instance.deleted = False
+        instance.save()
+        return Response(status=status.HTTP_200_OK)
+    
+class RestoreIngredient(generics.UpdateAPIView):
+    queryset = Ingredient.objects.filter(deleted=True)
+    serializer_class = IngredientSerializer
+
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        instance.deleted = False
+        instance.save()
+        return Response(status=status.HTTP_200_OK)
+    
+class RestoreRestaurant(generics.UpdateAPIView):
+    queryset = Restaurant.objects.filter(deleted=True)
+    serializer_class = RestaurantSerializer
+
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        instance.deleted = False
+        instance.save()
+        return Response(status=status.HTTP_200_OK)

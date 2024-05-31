@@ -1,0 +1,12 @@
+.small-list{
+  list-style: none;
+}
+
+.small-list li{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}

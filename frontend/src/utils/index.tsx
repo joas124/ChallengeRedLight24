@@ -1,5 +1,31 @@
 import { apiFrancesinhas, apiRestaurants, apiIngredients } from "../api/api";
 
+//Types
+export type Francesinha = {
+  id: number;
+  name: string;
+  price: number;
+  rating: number;
+  image: any;
+  ingredients: any[];
+  restaurant: any;
+}
+
+export type Restaurant = {
+  id: number;
+  name: string;
+  address: string;
+  city: string;
+  country: string;
+  francesinhas: any[];
+  rating: number;
+}
+
+export type Ingredient = {
+  id: number;
+  name: string;
+}
+
 
 //Fetch functions
 export const fetchFrancesinhas = async (query: string|null, sort: string|null, setFrancesinhas: Function) => {
@@ -19,7 +45,7 @@ export const fetchFrancesinhas = async (query: string|null, sort: string|null, s
 export const fetchRestaurants = async (query: string|null, sort: string|null, setRestaurants: Function) => {
   try {
     let response: any;
-    if (query && sort) {
+    if (query || sort) {
       await apiRestaurants.searchRestaurants(query, sort).then(
         (data) => {
           response = data;
@@ -63,32 +89,12 @@ export const fetchRestaurant = async (id: number, setRestaurant: Function, setEr
 export const fetchIngredients = async (query: string|null, sort: string|null, setIngredients: Function) => {
   try {
     let response: any;
-    if (query && sort) {
+    if (query || sort) {
       response = await apiIngredients.searchIngredients(query, sort);
     } else {
       response = await apiIngredients.getIngredients();
     }
     setIngredients(response.data);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-
-// Delete functions
-export const removeFrancesinha = async (id: number, navigate: Function) => {
-  try {
-    await apiFrancesinhas.deleteFrancesinha(id);
-    navigate('/francesinhas');
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-export const removeRestaurant = async (id: number, navigate: Function) => {
-  try {
-    await apiRestaurants.deleteRestaurant(id);
-    navigate('/restaurants');
   } catch (error) {
     console.error(error);
   }

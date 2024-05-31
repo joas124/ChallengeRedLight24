@@ -12,6 +12,7 @@ export default function Navbar(){
           <Link className="nav-link" to="/francesinhas">Francesinhas</Link>
           <Link className="nav-link" to="/restaurants">Restaurants</Link>
           <Link className="nav-link" to="/ingredients">Ingredients</Link>
+          <Link className="nav-link" to="/deleted">Deleted</Link>
         </div>
         <div className="nav-search">
           <SearchBar className="search-bar-nav" />

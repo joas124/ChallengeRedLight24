@@ -1,18 +1,10 @@
 import "./restaurant.css";
 import { Link, useNavigate } from "react-router-dom";
-import { removeRestaurant } from "../../utils";
+import { apiRestaurants } from "../../api/api";
 import Button from "../Button";
 import StarRating from "../StarRating";
+import type { Restaurant } from "../../utils";
 
-type Restaurant = {
-  id: number;
-  name: string;
-  address: string;
-  city: string;
-  country: string;
-  francesinhas: any[];
-  rating: number;
-}
 
 export default function Restaurant({restaurant}: {restaurant: Restaurant}) {
   const navigate = useNavigate();
@@ -20,7 +12,12 @@ export default function Restaurant({restaurant}: {restaurant: Restaurant}) {
 
   const handleDelete = async () => {
     if (!window.confirm("Are you sure you want to delete this Restaurant and all its Francesinhas?")) return;
-    removeRestaurant(restaurant.id, navigate);
+    try {
+      await apiRestaurants.deleteRestaurant(restaurant.id);
+      navigate('/restaurants');
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   const handleEdit = () => {

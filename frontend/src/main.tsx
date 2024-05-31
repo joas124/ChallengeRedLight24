@@ -10,6 +10,7 @@ import RestaurantsListPage from './pages/RestaurantsListPage'
 import RestaurantPage from './pages/RestaurantPage'
 import RestaurantFormPage from './pages/RestaurantFormPage'
 import IngredientsPage from './pages/IngredientsPage'
+import DeletedPage from './pages/DeletedPage'
 import './index.css'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
@@ -69,6 +70,10 @@ const router = createBrowserRouter([
       {
         path: '/ingredients/search',
         element: <IngredientsPage />,
+      },
+      {
+        path: '/deleted',
+        element: <DeletedPage />,
       },
       {
         path: '*', // 404

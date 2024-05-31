@@ -5,13 +5,10 @@ import { apiIngredients } from "../../api/api";
 import { AxiosError } from "axios";
 import { useLocation } from "react-router-dom";
 import Button from "../../components/Button";
+import type { Ingredient } from "../../utils";
 
 
 export default function IngredientPage() {
-  type Ingredient = {
-    id: number;
-    name: string;
-  }
 
   const [ingredients, setIngredients] = useState<Ingredient[] | null>(null);
   const location = useLocation();
@@ -87,7 +84,7 @@ export default function IngredientPage() {
         <Button text="Add New Ingredient" handleClick={handleAdd}/>
       </div>
       {!ingredients ? (<p>No Ingredients Found!</p>) : (
-        <ul className="ingredients-list">
+        <ul className="small-list">
           {ingredients.map((ingredient: any) => (
             <li key={ingredient.id} className="ingredient">
               <h2>{ingredient.name}</h2>

@@ -21,6 +21,9 @@ export const apiFrancesinhas = {
   getFrancesinhas(){
     return axiosInstance.get('/francesinhas');
   },
+  getDeletedFrancesinhas(){
+    return axiosInstance.get('/francesinhas/deleted');
+  },
   getFrancesinha(id: number){
     return axiosInstance.get(`/francesinhas/${id}`);
   },
@@ -33,17 +36,23 @@ export const apiFrancesinhas = {
   updateFrancesinha(id: number, data: any){
     return axiosInstanceFormData.put(`/francesinhas/${id}/`, data);
   },
-  deleteFrancesinha(id: number){
-    return axiosInstance.delete(`/francesinhas/${id}`);
+  deleteFrancesinha(id: number, hard: boolean = false){
+    return axiosInstance.delete(`/francesinhas/${id}${hard ? "?hard=true" : ""}`);
+  },
+  restoreFrancesinha(id: number){
+    return axiosInstance.post(`/francesinhas/${id}/restore`);
   },
   searchFrancesinhas(query: string|null, sort: string|null){
-    return axiosInstance.get(`/francesinhas/?q=${query}&sort=${sort}`);
+    return axiosInstance.get(`/francesinhas/?q=${query ? query : ""}&sort=${sort ? sort : ""}`);
   },
 }
 
 export const apiIngredients = {
   getIngredients(){
     return axiosInstance.get('/ingredients');
+  },
+  getDeletedIngredients(){
+    return axiosInstance.get('/ingredients/deleted');
   },
   getIngredient(id: number){
     return axiosInstance.get(`/ingredients/${id}`);
@@ -54,17 +63,20 @@ export const apiIngredients = {
   updateIngredient(id: number, data: any){
     return axiosInstanceFormData.put(`/ingredients/${id}/`, data);
   },
-  deleteIngredient(id: number){
-    return axiosInstance.delete(`/ingredients/${id}`);
+  deleteIngredient(id: number, hard: boolean = false){
+    return axiosInstance.delete(`/ingredients/${id}${hard ? "?hard=true" : ""}`);
   },
   searchIngredients(query: string|null, sort: string|null){
-    return axiosInstance.get(`/ingredients/?q=${query}&sort=${sort}`);
+    return axiosInstance.get(`/ingredients/?q=${query ? query : ""}&sort=${sort ? sort : ""}`);
   },
 }
 
 export const apiRestaurants = {
   getRestaurants(){
     return axiosInstance.get('/restaurants');
+  },
+  getDeletedRestaurants(){
+    return axiosInstance.get('/restaurants/deleted');
   },
   getRestaurant(id: number){
     return axiosInstance.get(`/restaurants/${id}`);
@@ -78,10 +90,10 @@ export const apiRestaurants = {
   updateRestaurant(id: number, data: any){
     return axiosInstanceFormData.put(`/restaurants/${id}/`, data);
   },
-  deleteRestaurant(id: number){
-    return axiosInstance.delete(`/restaurants/${id}`);
+  deleteRestaurant(id: number, hard: boolean = false){
+    return axiosInstance.delete(`/restaurants/${id}${hard ? "?hard=true" : ""}`);
   },
   searchRestaurants(query: string|null, sort: string|null){
-    return axiosInstance.get(`/restaurants/?q=${query}&sort=${sort}`);
+    return axiosInstance.get(`/restaurants/?q=${query ? query : ""}&sort=${sort ? sort : ""}`);
   },
 }

@@ -1,29 +1,23 @@
 import "./francesinha.css";
 import { Link, useNavigate } from "react-router-dom";
-import { removeFrancesinha } from "../../utils";
+import { apiFrancesinhas } from "../../api/api";
 import Button from "../Button";
 import StarRating from "../StarRating";
+import type { Francesinha } from "../../utils";
 
-type Francesinha = {
-  id: number;
-  name: string;
-  price: number;
-  rating: number;
-  image: any;
-  ingredients: any[];
-  restaurant: any;
-}
+
 
 export default function Francesinha( {francesinha} : {francesinha: Francesinha} ) {
   const navigate = useNavigate();
 
   const handleDelete = async () => {
     if (!window.confirm("Are you sure you want to delete this francesinha?")) return;
-    removeFrancesinha(francesinha.id, navigate);
-  }
-
-  const handleEdit = () => {
-    navigate(`/francesinhas/${francesinha.id}/edit`);
+    try {
+      await apiFrancesinhas.deleteFrancesinha(francesinha.id);
+      navigate('/francesinhas');
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   return (
@@ -61,7 +55,7 @@ export default function Francesinha( {francesinha} : {francesinha: Francesinha} 
         </div>
       </div>
       <div className="francesinha-buttons">
-        <Button text="Edit" handleClick={handleEdit} />
+        <Button text="Edit" handleClick={() => navigate(`/francesinhas/${francesinha.id}/edit`)} />
         <Button text="Delete" handleClick={handleDelete} />
       </div>
     </div>
