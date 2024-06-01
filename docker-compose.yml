@@ -37,8 +37,6 @@ services:
       target: test
     volumes:
       - ./frontend:/app
-    depends_on:
-      - frontend
     entrypoint: ["npm", "test"]
     command: []
     deploy:

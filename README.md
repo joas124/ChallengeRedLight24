@@ -48,10 +48,10 @@ docker-compose exec backend python manage.py test
 
 ### Front-end
 
-Run the following command
+Run the following command (--rm is used to remove the container after the tests are done)
 
 ```bash
-docker-compose run frontend-tests
+docker-compose run --rm frontend-tests
 ```
 
 
