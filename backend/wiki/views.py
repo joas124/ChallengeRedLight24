@@ -260,14 +260,14 @@ class FrancesinhaListByRestaurant(generics.ListAPIView):
     serializer_class = FrancesinhaSerializer
 
     def get_queryset(self):
-        restaurant_id = self.kwargs['restaurant_id']
+        restaurant_id = self.kwargs['pk']
         return Francesinha.objects.filter(restaurant=restaurant_id, deleted=False)
     
 class IngredientListByFrancesinha(generics.ListAPIView):
     serializer_class = IngredientSerializer
 
     def get_queryset(self):
-        francesinha_id = self.kwargs['francesinha_id']
+        francesinha_id = self.kwargs['pk']
         return Ingredient.objects.filter(francesinha=francesinha_id, deleted=False)
 
 # Views for deleted objects

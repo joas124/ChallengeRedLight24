@@ -14,7 +14,7 @@ urlpatterns = [
     path('francesinhas/<int:pk>/restore/', views.RestoreFrancesinha.as_view(), name='francesinha-restore'),
     path('ingredients/<int:pk>/restore/', views.RestoreIngredient.as_view(), name='ingredient-restore'),
     path('restaurants/<int:pk>/restore/', views.RestoreRestaurant.as_view(), name='restaurant-restore'),
-    path('restaurants/<int:restaurant_id>/francesinhas/', views.FrancesinhaListByRestaurant.as_view(), name='francesinha-list-by-restaurant'),
-    path('francesinhas/<int:francesinha_id>/ingredients/', views.IngredientListByFrancesinha.as_view(), name='ingredient-list-by-francesinha'),
+    path('restaurants/<int:pk>/francesinhas/', views.FrancesinhaListByRestaurant.as_view(), name='francesinha-list-by-restaurant'),
+    path('francesinhas/<int:pk>/ingredients/', views.IngredientListByFrancesinha.as_view(), name='ingredient-list-by-francesinha'),
     path('media/images/<str:image_name>/', views.render_image, name='render-image')
 ]

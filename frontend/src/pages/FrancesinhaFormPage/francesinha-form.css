@@ -22,18 +22,16 @@
 
 .form-div .form-ingredients {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(3, 1fr);
+  font-size: 1rem;
   list-style: none;
   padding: 0;
+  width: 100%;
 }
 
 .form-div button {
   margin-top: 20px;
 }
 
-.form-restaurant-div input {
-  width: 100%;
-  font-size: 1.3rem;
-}
 
 
