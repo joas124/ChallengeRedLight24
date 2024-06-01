@@ -72,6 +72,7 @@ class RestaurantListCreateTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data), 1)
 
+
 class FrancesinhaRetrieveUpdateDestroyTests(APITestCase):
 
     def setUp(self):
@@ -94,9 +95,16 @@ class FrancesinhaRetrieveUpdateDestroyTests(APITestCase):
         self.assertEqual(self.francesinha.name, 'Francesinha Brasileira Atualizada')
 
     def test_delete_francesinha(self):
+        # Test soft delete
         response = self.client.delete(self.url)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
-        self.assertEqual(Francesinha.objects.count(), 0)
+        self.francesinha.refresh_from_db()
+        self.assertTrue(self.francesinha.deleted)
+
+        # Test hard delete
+        response = self.client.delete(f"{self.url}?hard=true")
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertEqual(Francesinha.objects.filter(id=self.francesinha.id).count(), 0)
 
 class IngredientRetrieveUpdateDestroyTests(APITestCase):
 
@@ -117,9 +125,16 @@ class IngredientRetrieveUpdateDestroyTests(APITestCase):
         self.assertEqual(self.ingredient.name, 'Molho Francesinha do Mercadona')
 
     def test_delete_ingredient(self):
+        # Test soft delete
         response = self.client.delete(self.url)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
-        self.assertEqual(Ingredient.objects.count(), 0)
+        self.ingredient.refresh_from_db()
+        self.assertTrue(self.ingredient.deleted)
+
+        # Test hard delete
+        response = self.client.delete(f"{self.url}?hard=true")
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertEqual(Ingredient.objects.filter(id=self.ingredient.id).count(), 0)
 
 class RestaurantRetrieveUpdateDestroyTests(APITestCase):
 
@@ -140,6 +155,14 @@ class RestaurantRetrieveUpdateDestroyTests(APITestCase):
         self.assertEqual(self.restaurant.name, 'Churrasqueira Corte Real de Palmela')
 
     def test_delete_restaurant(self):
+        # Test soft delete
         response = self.client.delete(self.url)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
-        self.assertEqual(Restaurant.objects.count(), 0)
+        self.restaurant.refresh_from_db()
+        self.assertTrue(self.restaurant.deleted)
+
+        # Test hard delete
+        response = self.client.delete(f"{self.url}?hard=true")
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertEqual(Restaurant.objects.filter(id=self.restaurant.id).count(), 0)
+

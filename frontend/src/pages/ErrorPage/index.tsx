@@ -19,7 +19,7 @@ export default function ErrorPage( {errorMsg}: {errorMsg?: string|null}) {
   }
 
   return (
-    <div id="error-page">
+    <div className="error-page">
       <h1>Oops!</h1>
       <p>Sorry, an unexpected error has occurred.</p>
       <div className="error">{errorMessage}</div>

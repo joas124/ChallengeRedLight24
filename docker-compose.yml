@@ -30,5 +30,19 @@ services:
     ports:
       - 3000:80
 
+  frontend-tests:
+    build:
+      context: frontend/.
+      dockerfile: Dockerfile
+      target: test
+    volumes:
+      - ./frontend:/app
+    depends_on:
+      - frontend
+    entrypoint: ["npm", "test"]
+    command: []
+    deploy:
+      replicas: 0
+
 volumes:
   postgres:

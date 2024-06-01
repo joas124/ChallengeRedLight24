@@ -2,7 +2,7 @@ import './searchbar.css';
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function SearchBar({className}: {className: string}) {
+export default function SearchBar({className}: {className: 'search-bar-nav' | 'search-bar-landing'}) {
 
   const [type, setType] = useState('francesinhas' as string);
   const [sort, setSort] = useState('name' as string);

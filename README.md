@@ -36,6 +36,25 @@ docker-compose up
 
 3. Access the application at `http://localhost:3000`
 
+## How to run tests
+
+### Back-end
+
+Run the following command
+
+```bash
+docker-compose exec backend python manage.py test
+```
+
+### Front-end
+
+Run the following command
+
+```bash
+docker-compose run frontend-tests
+```
+
+
 ## Features
 
 - Create, edit and delete Francesinhas, Restaurants and Ingredients

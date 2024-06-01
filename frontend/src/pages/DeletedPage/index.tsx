@@ -75,7 +75,7 @@ export default function DeletedPage() {
   }, []);
 
   return (
-    <div>
+    <div className="deleted-page">
       <h1>Deleted Elements</h1>
       <p>Here you can find all the elements that you deleted. If you want to restore them (or permanently delete them), click on the buttons below.</p>
       <DeletedList deletedItems={deletedFrancesinhas} type='francesinha' handleRestore={handleRestore} handleDelete={handleDelete} />

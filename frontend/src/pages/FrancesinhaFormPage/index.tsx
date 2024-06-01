@@ -69,7 +69,7 @@ export default function FrancesinhaFormPage() {
   };
 
   return (
-    <>
+    <div className="francesinha-form">
       {francesinha ? (
         <div className="form-div">
         {id ?  (<h1>Editing {francesinha.name}</h1>) : (<h1>Add Francesinha</h1>  )}
@@ -106,6 +106,6 @@ export default function FrancesinhaFormPage() {
       ) : (
         <ErrorPage errorMsg={error} />
       )}
-    </>
+    </div>
   );
 }
