@@ -3,9 +3,10 @@ import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { fetchRestaurants } from "../../utils";
 import Button from "../../components/Button";
+import type { RestaurantType } from "../../utils";
 
 export default function RestaurantsListPage(){
-  const [restaurants, setRestaurants] = useState([]);
+  const [restaurants, setRestaurants] = useState<RestaurantType[]>([]);
   const location = useLocation();
 
   const navigate = useNavigate();

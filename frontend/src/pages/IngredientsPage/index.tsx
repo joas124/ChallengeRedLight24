@@ -10,7 +10,7 @@ import type { IngredientType } from "../../utils";
 
 export default function IngredientPage() {
 
-  const [ingredients, setIngredients] = useState<IngredientType[] | null>(null);
+  const [ingredients, setIngredients] = useState<IngredientType[]>([]);
   const location = useLocation();
 
   const handleAdd = async () => {
@@ -83,7 +83,7 @@ export default function IngredientPage() {
         <h1>Ingredients</h1>
         <Button text="Add New Ingredient" handleClick={handleAdd}/>
       </div>
-      {!ingredients ? (<p>No Ingredients Found!</p>) : (
+      {ingredients.length === 0 ? (<p>No Ingredients Found!</p>) : (
         <ul className="small-list">
           {ingredients.map((ingredient: any) => (
             <li key={ingredient.id} className="ingredient">

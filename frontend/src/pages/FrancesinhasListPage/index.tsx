@@ -3,9 +3,10 @@ import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { fetchFrancesinhas } from "../../utils";
 import Button from "../../components/Button";
+import type { FrancesinhaType } from "../../utils";
 
 export default function FrancesinhasListPage(){
-  const [francesinhas, setFrancesinhas] = useState([]);
+  const [francesinhas, setFrancesinhas] = useState<FrancesinhaType[]>([]);
   const location = useLocation();
   const navigate = useNavigate();
 
